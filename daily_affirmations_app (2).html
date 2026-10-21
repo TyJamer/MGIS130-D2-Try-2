@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SereneMind - Daily Mood Affirmations</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Background Dynamic Overlay -->
+  <div id="bg-overlay" class="bg-overlay"></div>
+
+  <!-- Main Container -->
+  <div class="app-container">
+    
+    <header class="app-header">
+      <div class="time-badge" id="time-badge">✨ Morning Reflection</div>
+      <h1 class="greeting-title" id="greeting-title">How are you feeling right now?</h1>
+      <p class="greeting-subtitle">Select your current mood to receive a tailored affirmation for your journey today.</p>
+    </header>
+
+    <section class="mood-selector" aria-label="Mood Selector">
+      <button class="mood-btn active" data-mood="anxious">
+        <span class="mood-icon">🌿</span>
+        <span class="mood-label">Anxious</span>
+      </button>
+      <button class="mood-btn" data-mood="confident">
+        <span class="mood-icon">🔥</span>
+        <span class="mood-label">Confident</span>
+      </button>
+      <button class="mood-btn" data-mood="sad">
+        <span class="mood-icon">🌧️</span>
+        <span class="mood-label">Sad</span>
+      </button>
+      <button class="mood-btn" data-mood="happy">
+        <span class="mood-icon">☀️</span>
+        <span class="mood-label">Happy</span>
+      </button>
+      <button class="mood-btn" data-mood="self-love">
+        <span class="mood-icon">💖</span>
+        <span class="mood-label">Self-Love</span>
+      </button>
+    </section>
+
+    <main class="affirmation-card" id="affirmation-card">
+      <div class="card-glass-bg"></div>
+      
+      <div class="card-header">
+        <span class="mood-tag" id="current-mood-tag">🌿 Anxious</span>
+        <span class="cycle-counter" id="cycle-counter">1 of 5</span>
+      </div>
+
+      <div class="quote-wrapper">
+        <blockquote id="quote-text">"Take a deep breath. You do not have to figure out your entire life in this single moment."</blockquote>
+        <cite id="quote-author">— Gentle Reminder</cite>
+      </div>
+
+      <div class="card-actions">
+        <button id="next-btn" class="action-btn primary" title="Get Next Affirmation">
+          <span>New Affirmation</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+
+        <div class="icon-group">
+          <button id="favorite-btn" class="action-btn icon-only" title="Save to Favorites">
+            <svg id="heart-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+
+          <button id="share-btn" class="action-btn icon-only" title="Generate Shareable Card">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          </button>
+        </div>
+      </div>
+    </main>
+
+    <section class="tools-section">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="create-tab">✍️ Create Custom Quote</button>
+        <button class="tab-btn" data-tab="favorites-tab">💖 Saved Favorites (<span id="fav-count">0</span>)</button>
+      </div>
+
+      <!-- Tab Content: Custom Creator -->
+      <div id="create-tab" class="tab-content active">
+        <form id="custom-quote-form" class="custom-form">
+          <div class="form-group">
+            <label for="custom-text">Your Affirmation</label>
+            <textarea id="custom-text" placeholder="Type an encouraging note to yourself..." required></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="custom-mood">Category</label>
+              <select id="custom-mood">
+                <option value="anxious">Anxious</option>
+                <option value="confident">Confident</option>
+                <option value="sad">Sad</option>
+                <option value="happy">Happy</option>
+                <option value="self-love">Self-Love</option>
+              </select>
+            </div>
+            <button type="submit" class="action-btn secondary">Save & Affirm</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Tab Content: Favorites -->
+      <div id="favorites-tab" class="tab-content">
+        <div id="favorites-list" class="favorites-list">
+          <p class="empty-state">No saved affirmations yet. Click the heart icon on any quote to collect it here!</p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div id="share-modal" class="modal">
+    <div class="modal-content">
+      <button id="close-modal" class="close-btn">&times;</button>
+      <h2>Share Your Affirmation</h2>
+      <p class="modal-sub">Preview your social image below. Right-click or hold to save!</p>
+      <div class="canvas-wrapper">
+        <canvas id="share-canvas" width="600" height="600"></canvas>
+      </div>
+      <a id="download-card-btn" class="action-btn primary full-width" download="affirmation.png">Download Image Card</a>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
