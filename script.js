@@ -1,6 +1,6 @@
 /* ==========================================================================
    SECTION 1: DATA
-   Contains mood definitions, initial quote banks, theme palettes, and state.
+   Contains mood definitions, expanded quote banks, theme palettes, and state.
    ========================================================================== */
 
 const MOOD_DATA = {
@@ -19,7 +19,14 @@ const MOOD_DATA = {
       { text: "Anxiety is a feeling, not a definition of who you are. This too shall pass.", author: "Inner Peace" },
       { text: "You have survived 100% of your hardest days so far. You are doing fine.", author: "Mindful Thought" },
       { text: "Slow down. Inhale peace, exhale tension. You are safe in this present moment.", author: "Calm Mind" },
-      { text: "Trust yourself. You have overcome obstacles before, and you will navigate this too.", author: "Strength Within" }
+      { text: "Trust yourself. You have overcome obstacles before, and you will navigate this too.", author: "Strength Within" },
+      { text: "Feelings are just visitors; let them come and go. You are the quiet sky behind the clouds.", author: "Mindful Awareness" },
+      { text: "You don't need to control everything around you to feel at peace within yourself.", author: "Serene Living" },
+      { text: "Release the weight of tomorrow. Today holds enough grace for this single step.", author: "Daily Sanctuary" },
+      { text: "Your mind may race, but your feet are firmly grounded on steady earth.", author: "Grounding Energy" },
+      { text: "Give yourself permission to set down your worries, even if only for five minutes.", author: "Restful Heart" },
+      { text: "This feeling is uncomfortable, but it is temporary and entirely manageable.", author: "Inner Clarity" },
+      { text: "Breathe in peace, exhale tension. You are safe, secure, and grounded.", author: "Peaceful Breath" }
     ]
   },
   confident: {
@@ -37,7 +44,14 @@ const MOOD_DATA = {
       { text: "Your potential is unlimited. Step boldly into rooms you once felt underprepared for.", author: "Courage First" },
       { text: "Doubt is only a thought. Your capability is a proven reality.", author: "Inner Power" },
       { text: "Own your story and stand tall. You belong wherever your goals take you.", author: "Bold Spirit" },
-      { text: "You are fully equipped to turn challenges into major stepping stones.", author: "Unstoppable You" }
+      { text: "You are fully equipped to turn challenges into major stepping stones.", author: "Unstoppable You" },
+      { text: "Trust your expertise and intuition; you have earned your seat at every table.", author: "Inner Authority" },
+      { text: "You don't need validation from others when you know the value of your own work.", author: "Self Belief" },
+      { text: "Action dissolves fear. Step forward with clarity and watch path appear.", author: "Forward Motion" },
+      { text: "Your voice matters, your ideas hold merit, and your vision is worth pursuing.", author: "Bold Voice" },
+      { text: "You are capable of handling whatever comes next with grace and resolve.", author: "Resilient Spirit" },
+      { text: "Confidence is not having all the answers, but trusting yourself to find them.", author: "Wisdom Within" },
+      { text: "You are the author of your trajectory. Write a story of strength today.", author: "Mastery" }
     ]
   },
   sad: {
@@ -55,7 +69,14 @@ const MOOD_DATA = {
       { text: "Even the darkest, stormiest night eventually surrenders to a bright morning sunrise.", author: "Hope Restored" },
       { text: "Be gentle with your heart today. Healing is never a linear journey.", author: "Soft Healing" },
       { text: "Your feelings are valid. Give yourself time to recover at your own natural pace.", author: "Gentle Comfort" },
-      { text: "You are deeply loved, even when you cannot feel it in this current moment.", author: "Universal Embrace" }
+      { text: "You are deeply loved, even when you cannot feel it in this current moment.", author: "Universal Embrace" },
+      { text: "Softness is not weakness; allowing yourself to feel deeply is true courage.", author: "Gentle Strength" },
+      { text: "Rain cleanses the sky before the flowers bloom. Let this moment wash over you.", author: "Nature's Renewal" },
+      { text: "You do not have to put on a brave face. It is safe to just exist as you are.", author: "Safe Space" },
+      { text: "A quiet heart is still a strong heart. Rest until your light returns naturally.", author: "Restful Soul" },
+      { text: "Sadness is proof that you care deeply about life. Honor that sensitivity.", author: "Kind Reflection" },
+      { text: "You are allowed to take things one small hour, or one minute, at a time.", author: "Patient Grace" },
+      { text: "The sun hasn't vanished forever; it's simply behind the clouds for a moment.", author: "Enduring Hope" }
     ]
   },
   happy: {
@@ -73,7 +94,14 @@ const MOOD_DATA = {
       { text: "Celebrate this bright moment! Gratitude turns what we have into more than enough.", author: "Abundant Mind" },
       { text: "Happiness grows when shared. Keep shining your natural warmth today.", author: "Sunlit Soul" },
       { text: "Embrace every slice of goodness coming your way right now.", author: "Pure Positivity" },
-      { text: "Your laughter and optimism are true gifts to the world.", author: "Radiant Spirit" }
+      { text: "Your laughter and optimism are true gifts to the world.", author: "Radiant Spirit" },
+      { text: "Joy is present in the simple moments if we pause long enough to savor them.", author: "Present Delight" },
+      { text: "You deserve all the light, laughter, and goodness overflowing in your life.", author: "Open Joy" },
+      { text: "Let your happiness bubble over and light up every room you enter today.", author: "Sparks of Joy" },
+      { text: "Gratitude turns everyday ordinary experiences into sacred celebrations.", author: "Grateful Heart" },
+      { text: "Your positive energy is magnetic; soak in the warmth of this beautiful moment.", author: "Warm Light" },
+      { text: "Smile wide—you are living through moments you once prayed to experience.", author: "Joyful Reflection" },
+      { text: "Delight in the present moment. Happiness is a continuous journey.", author: "Vibrant Being" }
     ]
   },
   "self-love": {
@@ -91,7 +119,14 @@ const MOOD_DATA = {
       { text: "Treat yourself with the same gentle grace you so freely extend to others.", author: "Kind Heart" },
       { text: "Your worth is not measured by productivity or perfection.", author: "Peaceful Mind" },
       { text: "You are enough. You have always been enough. You will always be enough.", author: "Core Truth" },
-      { text: "Nurture your soul today. You deserve your own undivided attention and care.", author: "Loving Self" }
+      { text: "Nurture your soul today. You deserve your own undivided attention and care.", author: "Loving Self" },
+      { text: "Forgive yourself for past mistakes. You were doing the best you knew how to do.", author: "Self Compassion" },
+      { text: "Setting healthy boundaries is an act of deep self-respect and self-preservation.", author: "Honored Boundaries" },
+      { text: "Speak to yourself like someone you love unconditionally and treasure deeply.", author: "Kind Inner Voice" },
+      { text: "You do not need to earn your right to rest or take up space in this world.", author: "Unconditional Worth" },
+      { text: "Celebrate your uniqueness; no one else brings your exact magic into the world.", author: "Authentic Self" },
+      { text: "Your body, mind, and spirit are worthy of gentle care and daily reverence.", author: "Sacred Care" },
+      { text: "Love yourself first, because that is who you share every moment of your life with.", author: "Lifelong Friend" }
     ]
   }
 };
@@ -106,7 +141,7 @@ class AffirmationEngine {
   constructor() {
     this.currentMood = "anxious";
     
-    // Cycle history tracking: stores remaining indices per mood
+    // Cycle history tracking: stores remaining quote indices per mood
     this.moodPools = {};
     this.currentQuoteIndex = -1;
     this.favorites = this.loadFavorites();
@@ -223,7 +258,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // DOM Elements
   const timeBadgeEl = document.getElementById("time-badge");
   const greetingTitleEl = document.getElementById("greeting-title");
-  const bgOverlayEl = document.getElementById("bg-overlay");
   
   const moodBtns = document.querySelectorAll(".mood-btn");
   const moodTagEl = document.getElementById("current-mood-tag");
@@ -452,7 +486,6 @@ document.addEventListener("DOMContentLoaded", () => {
       engine.addCustomQuote(mood, text);
       customTextIn.value = "";
       renderAffirmation(mood);
-      alert("Your affirmation has been added to your personal rotation!");
     }
   });
 
