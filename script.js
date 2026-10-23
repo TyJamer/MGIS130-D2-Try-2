@@ -1,19 +1,20 @@
 /* ==========================================================================
    SECTION 1: DATA
-   Contains mood definitions, expanded quote banks, theme palettes, and state.
+   Contains mood definitions with sunset/sunrise imagery, quote banks, and colors.
    ========================================================================== */
 
 const MOOD_DATA = {
   anxious: {
     label: "Anxious",
     icon: "🌿",
-    gradientStart: "#e8f3ee",
-    gradientEnd: "#d1e7dd",
-    primaryAccent: "#3b7a57",
-    primaryHover: "#2d5e43",
-    cardBg: "rgba(255, 255, 255, 0.8)",
-    textColor: "#2c3e35",
-    mutedColor: "#5c7367",
+    bgImage: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80", // Golden calm sunrise over peaceful ocean
+    gradientStart: "rgba(20, 35, 45, 0.4)",
+    gradientEnd: "rgba(10, 20, 30, 0.6)",
+    primaryAccent: "#72d5a3",
+    primaryHover: "#51be86",
+    cardBg: "rgba(255, 255, 255, 0.12)",
+    textColor: "#ffffff",
+    mutedColor: "rgba(255, 255, 255, 0.85)",
     quotes: [
       { text: "Take a deep breath. You do not have to figure out your entire life in this single moment.", author: "Gentle Reminder" },
       { text: "Anxiety is a feeling, not a definition of who you are. This too shall pass.", author: "Inner Peace" },
@@ -32,13 +33,14 @@ const MOOD_DATA = {
   confident: {
     label: "Confident",
     icon: "🔥",
-    gradientStart: "#fff3e0",
-    gradientEnd: "#ffe0b2",
-    primaryAccent: "#e65100",
-    primaryHover: "#bf360c",
-    cardBg: "rgba(255, 255, 255, 0.82)",
-    textColor: "#3e2723",
-    mutedColor: "#795548",
+    bgImage: "https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?auto=format&fit=crop&w=1920&q=80", // Vibrant sunrise over mountain peaks
+    gradientStart: "rgba(45, 20, 15, 0.4)",
+    gradientEnd: "rgba(20, 10, 5, 0.6)",
+    primaryAccent: "#ff8c52",
+    primaryHover: "#e66d31",
+    cardBg: "rgba(255, 255, 255, 0.12)",
+    textColor: "#ffffff",
+    mutedColor: "rgba(255, 255, 255, 0.85)",
     quotes: [
       { text: "You possess the strength and wisdom needed to achieve extraordinary things.", author: "Self Empowerment" },
       { text: "Your potential is unlimited. Step boldly into rooms you once felt underprepared for.", author: "Courage First" },
@@ -57,13 +59,14 @@ const MOOD_DATA = {
   sad: {
     label: "Sad",
     icon: "🌧️",
-    gradientStart: "#e1f5fe",
-    gradientEnd: "#b3e5fc",
-    primaryAccent: "#0288d1",
-    primaryHover: "#01579b",
-    cardBg: "rgba(255, 255, 255, 0.82)",
-    textColor: "#012a4a",
-    mutedColor: "#4682b4",
+    bgImage: "https://images.unsplash.com/photo-1438786657495-640937046d18?auto=format&fit=crop&w=1920&q=80", // Soft tranquil purple/blue twilight sunset
+    gradientStart: "rgba(15, 25, 45, 0.4)",
+    gradientEnd: "rgba(5, 12, 25, 0.6)",
+    primaryAccent: "#64b5f6",
+    primaryHover: "#42a5f5",
+    cardBg: "rgba(255, 255, 255, 0.12)",
+    textColor: "#ffffff",
+    mutedColor: "rgba(255, 255, 255, 0.85)",
     quotes: [
       { text: "It is okay to rest and feel tired. Honor your emotions without judgment.", author: "Compassionate Self" },
       { text: "Even the darkest, stormiest night eventually surrenders to a bright morning sunrise.", author: "Hope Restored" },
@@ -82,13 +85,14 @@ const MOOD_DATA = {
   happy: {
     label: "Happy",
     icon: "☀️",
-    gradientStart: "#fffde7",
-    gradientEnd: "#fff9c4",
-    primaryAccent: "#fbc02d",
-    primaryHover: "#f57f17",
-    cardBg: "rgba(255, 255, 255, 0.85)",
-    textColor: "#332a00",
-    mutedColor: "#827717",
+    bgImage: "https://images.unsplash.com/photo-1470240731273-7821a6eeb6bd?auto=format&fit=crop&w=1920&q=80", // Warm sun-drenched sunset glow over meadow
+    gradientStart: "rgba(45, 35, 10, 0.4)",
+    gradientEnd: "rgba(25, 18, 5, 0.6)",
+    primaryAccent: "#ffd54f",
+    primaryHover: "#ffca28",
+    cardBg: "rgba(255, 255, 255, 0.12)",
+    textColor: "#ffffff",
+    mutedColor: "rgba(255, 255, 255, 0.85)",
     quotes: [
       { text: "Radiate your joy out into the world. Your positive energy inspires everyone around you.", author: "Joyful Light" },
       { text: "Celebrate this bright moment! Gratitude turns what we have into more than enough.", author: "Abundant Mind" },
@@ -107,13 +111,14 @@ const MOOD_DATA = {
   "self-love": {
     label: "Self-Love",
     icon: "💖",
-    gradientStart: "#fce4ec",
-    gradientEnd: "#f8bbd0",
-    primaryAccent: "#c2185b",
-    primaryHover: "#880e4f",
-    cardBg: "rgba(255, 255, 255, 0.82)",
-    textColor: "#31111d",
-    mutedColor: "#883955",
+    bgImage: "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&w=1920&q=80", // Pastel pink and golden horizon sunset
+    gradientStart: "rgba(40, 15, 30, 0.4)",
+    gradientEnd: "rgba(20, 5, 15, 0.6)",
+    primaryAccent: "#f48fb1",
+    primaryHover: "#f06292",
+    cardBg: "rgba(255, 255, 255, 0.12)",
+    textColor: "#ffffff",
+    mutedColor: "rgba(255, 255, 255, 0.85)",
     quotes: [
       { text: "You are inherently worthy of love, respect, and kindness—exactly as you are.", author: "Self Acceptance" },
       { text: "Treat yourself with the same gentle grace you so freely extend to others.", author: "Kind Heart" },
@@ -287,23 +292,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initialize Time-of-Day checkin
   function applyTimeCheckIn() {
-    const timeInfo = engine.getTimeOfDayGreeting();
-    timeBadgeEl.textContent = timeInfo.badge;
-    greetingTitleEl.textContent = timeInfo.title;
+    const checkIn = engine.getTimeOfDayGreeting();
+    timeBadgeEl.textContent = checkIn.badge;
+    greetingTitleEl.textContent = checkIn.title;
   }
 
-  // Update theme colors based on current mood
+  // Update theme colors and peaceful background image based on current mood
   function applyTheme(moodKey) {
     const config = MOOD_DATA[moodKey];
     const root = document.documentElement;
+    const bgImageLayer = document.getElementById("bg-image-layer");
+
+    if (bgImageLayer && config.bgImage) {
+      bgImageLayer.style.backgroundImage = `url('${config.bgImage}')`;
+    }
 
     root.style.setProperty("--bg-gradient-start", config.gradientStart);
     root.style.setProperty("--bg-gradient-end", config.gradientEnd);
     root.style.setProperty("--primary-accent", config.primaryAccent);
     root.style.setProperty("--primary-accent-hover", config.primaryHover);
-    root.style.setProperty("--card-bg", config.cardBg);
-    root.style.setProperty("--text-main", config.textColor);
-    root.style.setProperty("--text-muted", config.mutedColor);
 
     // Update active state on mood buttons
     moodBtns.forEach(btn => {
@@ -378,17 +385,20 @@ document.addEventListener("DOMContentLoaded", () => {
     const height = shareCanvas.height;
     const moodConfig = MOOD_DATA[engine.currentMood];
 
-    // Background Gradient
+    // Background Dark Gradient
     const grad = ctx.createLinearGradient(0, 0, width, height);
-    grad.addColorStop(0, moodConfig.gradientStart);
-    grad.addColorStop(1, moodConfig.gradientEnd);
+    grad.addColorStop(0, "#1a1228");
+    grad.addColorStop(1, "#0a0612");
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, width, height);
 
     // Decorative Inner Card Frame
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
     ctx.roundRect(40, 40, width - 80, height - 80, 24);
     ctx.fill();
+    ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
+    ctx.lineWidth = 2;
+    ctx.stroke();
 
     // Decorative Icon & Mood Header
     ctx.fillStyle = moodConfig.primaryAccent;
@@ -397,7 +407,7 @@ document.addEventListener("DOMContentLoaded", () => {
     ctx.fillText(`${moodConfig.icon} ${moodConfig.label.toUpperCase()} AFFIRMATION`, width / 2, 100);
 
     // Quote Text Wrapping Engine
-    ctx.fillStyle = moodConfig.textColor;
+    ctx.fillStyle = "#ffffff";
     ctx.font = "500 26px 'Plus Jakarta Sans', sans-serif";
     
     const words = currentQuoteObj.text.split(" ");
@@ -424,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Author & Branding
-    ctx.fillStyle = moodConfig.mutedColor;
+    ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
     ctx.font = "italic 18px 'Plus Jakarta Sans', sans-serif";
     ctx.fillText(`— ${currentQuoteObj.author}`, width / 2, startY + (lines.length * 36) + 30);
 
