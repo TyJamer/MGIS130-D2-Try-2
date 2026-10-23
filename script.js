@@ -354,6 +354,7 @@ const MOOD_DATA = {
 
 class AffirmationEngine {
   constructor() {
+    this.userName = this.loadUserName();
     this.currentMood = "anxious";
     
     // Cycle history tracking: stores remaining quote indices per mood
@@ -364,6 +365,23 @@ class AffirmationEngine {
     this.initPools();
   }
 
+  loadUserName() {
+    try {
+      return localStorage.getItem("serene_user_name") || "";
+    } catch (e) {
+      return "";
+    }
+  }
+
+  saveUserName(name) {
+    this.userName = name;
+    try {
+      localStorage.setItem("serene_user_name", name);
+    } catch (e) {
+      console.warn("Could not save name to localStorage");
+    }
+  }
+
   // Initialize or reset remaining quote pools for each mood
   initPools() {
     Object.keys(MOOD_DATA).forEach(mood => {
@@ -372,56 +390,35 @@ class AffirmationEngine {
   }
 
   // Reset a specific mood's quote pool once fully cycled through
-  resetMoodPool(mood) {
-    const totalQuotes = MOOD_DATA[mood].quotes.length;
-    this.moodPools[mood] = Array.from({ length: totalQuotes }, (_, i) => i);
-  }
-
-  // Retrieve next non-repeating quote for the active mood
-  getNextQuote(mood = this.currentMood) {
-    this.currentMood = mood;
-    
-    // If cycle is complete, reset pool to start a fresh cycle
-    if (!this.moodPools[mood] || this.moodPools[mood].length === 0) {
-      this.resetMoodPool(mood);
-    }
-
-    // Pick a random index from remaining pool
-    const pool = this.moodPools[mood];
-    const randomIndexInPool = Math.floor(Math.random() * pool.length);
-    const selectedQuoteIndex = pool.splice(randomIndexInPool, 1)[0];
-
-    this.currentQuoteIndex = selectedQuoteIndex;
-    
-    return {
-      quote: MOOD_DATA[mood].quotes[selectedQuoteIndex],
-      remainingInCycle: pool.length,
-      totalInCycle: MOOD_DATA[mood].quotes.length
-    };
-  }
-
-  // Add custom user affirmation
-  addCustomQuote(mood, text) {
-    if (MOOD_DATA[mood]) {
-      const newQuote = { text: text, author: "My Custom Affirmation" };
-      MOOD_DATA[mood].quotes.push(newQuote);
-      // Add index of newly created quote to active pool
-      const newIndex = MOOD_DATA[mood].quotes.length - 1;
-      this.moodPools[mood].push(newIndex);
-    }
-  }
-
-  // Determine time of day check-in greeting
+  // Determine time of day check-in greeting personalized with name
   getTimeOfDayGreeting() {
     const hour = new Date().getHours();
+    const nameStr = this.userName ? `, ${this.userName}` : "";
+    
     if (hour >= 5 && hour < 12) {
-      return { badge: "🌅 Morning Check-in", title: "Start your morning with calm & focus" };
+      return { 
+        badge: "🌅 Morning Check-in", 
+        title: `Good morning${nameStr}`,
+        subtitle: "Start your morning with calm & steady focus."
+      };
     } else if (hour >= 12 && hour < 17) {
-      return { badge: "☀️ Afternoon Reflection", title: "Take a peaceful midday break" };
+      return { 
+        badge: "☀️ Afternoon Reflection", 
+        title: `Good afternoon${nameStr}`,
+        subtitle: "Take a peaceful pause in the middle of your day."
+      };
     } else if (hour >= 17 && hour < 22) {
-      return { badge: "🌆 Evening Unwind", title: "Rest your mind after a full day" };
+      return { 
+        badge: "🌆 Evening Unwind", 
+        title: `Good evening${nameStr}`,
+        subtitle: "Rest your mind and release the weight of the day."
+      };
     } else {
-      return { badge: "🌙 Nighttime Peace", title: "Soft thoughts before sleeping" };
+      return { 
+        badge: "🌙 Nighttime Peace", 
+        title: `Peaceful night${nameStr}`,
+        subtitle: "Soft thoughts and serene comfort before rest."
+      };
     }
   }
 
@@ -470,9 +467,20 @@ class AffirmationEngine {
 document.addEventListener("DOMContentLoaded", () => {
   const engine = new AffirmationEngine();
 
-  // DOM Elements
+  // DOM Elements - Onboarding
+  const welcomeScreenEl = document.getElementById("welcome-screen");
+  const welcomeForm = document.getElementById("welcome-form");
+  const userNameInput = document.getElementById("user-name-input");
+  const welcomeMoodSelect = document.getElementById("welcome-mood-select");
+  const welcomeTimeBadge = document.getElementById("welcome-time-badge");
+  const appContainerEl = document.getElementById("app-container");
+  const changeUserBtn = document.getElementById("change-user-btn");
+  const userDisplayNameEl = document.getElementById("user-display-name");
+
+  // DOM Elements - Main App
   const timeBadgeEl = document.getElementById("time-badge");
   const greetingTitleEl = document.getElementById("greeting-title");
+  const greetingSubtitleEl = document.querySelector(".greeting-subtitle");
   
   const moodBtns = document.querySelectorAll(".mood-btn");
   const moodTagEl = document.getElementById("current-mood-tag");
@@ -504,7 +512,10 @@ document.addEventListener("DOMContentLoaded", () => {
   function applyTimeCheckIn() {
     const checkIn = engine.getTimeOfDayGreeting();
     timeBadgeEl.textContent = checkIn.badge;
+    welcomeTimeBadge.textContent = checkIn.badge;
     greetingTitleEl.textContent = checkIn.title;
+    if (greetingSubtitleEl) greetingSubtitleEl.textContent = checkIn.subtitle;
+    if (userDisplayNameEl) userDisplayNameEl.textContent = engine.userName || "Friend";
   }
 
   // Update theme colors and peaceful background image based on current mood
@@ -549,41 +560,36 @@ document.addEventListener("DOMContentLoaded", () => {
     }, 150);
   }
 
-  // Update Favorite Heart Icon State
-  function updateFavoriteButtonState() {
-    if (currentQuoteObj && engine.isFavorited(currentQuoteObj.text)) {
-      favoriteBtn.classList.add("favorited");
-    } else {
-      favoriteBtn.classList.remove("favorited");
-    }
+  // Onboarding Start Action
+  function startJourney(name, initialMood) {
+    engine.saveUserName(name);
+    applyTimeCheckIn();
+    
+    // Hide onboarding screen and show main app
+    welcomeScreenEl.classList.add("hidden");
+    appContainerEl.classList.remove("hidden");
+    
+    renderAffirmation(initialMood);
   }
 
-  // Render Saved Favorites Tab
-  function renderFavoritesUI() {
-    favCountEl.textContent = engine.favorites.length;
-    favoritesListEl.innerHTML = "";
+  // Onboarding Form Listener
+  welcomeForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const name = userNameInput.value.trim();
+    const mood = welcomeMoodSelect.value;
 
-    if (engine.favorites.length === 0) {
-      favoritesListEl.innerHTML = `<p class="empty-state">No saved affirmations yet. Click the heart icon on any quote to collect it here!</p>`;
-      return;
+    if (name && mood) {
+      startJourney(name, mood);
     }
+  });
 
-    engine.favorites.forEach(fav => {
-      const item = document.createElement("div");
-      item.className = "fav-item";
-      item.innerHTML = `
-        <div class="fav-item-text">
-          <strong>"${fav.text}"</strong>
-          <br><small style="color:var(--text-muted);">${MOOD_DATA[fav.mood]?.label || "Custom"}</small>
-        </div>
-        <button class="delete-fav" title="Remove">&times;</button>
-      `;
-
-      item.querySelector(".delete-fav").addEventListener("click", () => {
-        engine.toggleFavorite(fav, fav.mood);
-        renderFavoritesUI();
-        updateFavoriteButtonState();
-      });
+  // Re-open onboarding / profile change
+  changeUserBtn.addEventListener("click", () => {
+    userNameInput.value = engine.userName;
+    welcomeMoodSelect.value = engine.currentMood;
+    appContainerEl.classList.add("hidden");
+    welcomeScreenEl.classList.remove("hidden");
+  });
 
       favoritesListEl.appendChild(item);
     });
@@ -726,5 +732,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial Load Trigger
   applyTimeCheckIn();
   renderAffirmation("anxious");
+  renderFavoritesUI();
+});
+  // Initial Load Trigger - Check if user name exists or prompt onboarding
+  applyTimeCheckIn();
+  applyTheme("anxious"); // Soft default sunset background behind welcome screen
+
+  if (engine.userName) {
+    userNameInput.value = engine.userName;
+  }
   renderFavoritesUI();
 });
