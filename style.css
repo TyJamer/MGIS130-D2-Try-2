@@ -1,5 +1,46 @@
 /* Reset and Base Layout */
 
+{ box-sizing: border-box; margin: 0; padding: 0; }
+
+:root { --primary-accent: #72d5a3; --primary-accent-hover: #51be86; --bg-gradient-start: rgba(20, 35, 45, 0.4); --bg-gradient-end: rgba(10, 20, 30, 0.6); --card-bg: rgba(255, 255, 255, 0.12); --glass-border: rgba(255, 255, 255, 0.25); --glass-shadow: 0 12px 36px 0 rgba(0, 0, 0, 0.35); --text-main: #ffffff; --text-muted: rgba(255, 255, 255, 0.85); }
+
+body { font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif; color: var(--text-main); min-height: 100vh; display: flex; justify-content: center; align-items: center; position: relative; overflow-x: hidden; background-color: #0d1117; }
+
+/* Background Photo Layer & Overlays */ .bg-image-layer { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-size: cover; background-position: center center; background-repeat: no-repeat; transition: background-image 0.8s ease-in-out; z-index: -2; }
+
+.bg-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: linear-gradient(135deg, var(--bg-gradient-start), var(--bg-gradient-end)); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); transition: background 0.8s ease-in-out; z-index: -1; }
+
+/* App Container */ .app-container { width: 100%; max-width: 640px; padding: 24px 16px; display: flex; flex-direction: column; gap: 20px; z-index: 1; }
+
+/* Header Section */ .app-header { text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+
+.time-badge { display: inline-flex; align-items: center; gap: 6px; padding: 6px 16px; background: rgba(255, 255, 255, 0.15); border: 1px solid var(--glass-border); border-radius: 20px; font-size: 0.85rem; font-weight: 600; backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4); }
+
+.greeting-title { font-size: 1.6rem; font-weight: 700; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); }
+
+.greeting-subtitle { font-size: 0.95rem; color: var(--text-muted); max-width: 480px; line-height: 1.4; text-shadow: 0 1px 5px rgba(0, 0, 0, 0.4); }
+
+/* Mood Selector Grid */ .mood-selector { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 12px 2px; scrollbar-width: none; }
+
+.mood-selector::-webkit-scrollbar { display: none; }
+
+.mood-btn { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; padding: 10px 16px; background: rgba(255, 255, 255, 0.12); border: 1px solid var(--glass-border); border-radius: 24px; color: var(--text-main); font-family: inherit; font-size: 0.9rem; font-weight: 600; cursor: pointer; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); transition: all 0.25s ease; }
+
+.mood-btn:hover { background: rgba(255, 255, 255, 0.22); transform: translateY(-2px); }
+
+.mood-btn.active { background: var(--primary-accent); color: #0e1713; border-color: transparent; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25); }
+
+/* Main Affirmation Glass Card */ .affirmation-card { position: relative; background: var(--card-bg); border: 1px solid var(--glass-border); border-radius: 28px; padding: 32px 24px; box-shadow: var(--glass-shadow); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid var(--glass-border); border-radius: 24px; z-index: 0; pointer-events: none; /* Glass background should ignore mouse events */ }
+
+/* Ensure interactive elements are above glass background */ .card-header, .quote-wrapper, .card-actions, .mood-btn, .tab-btn, .action-btn { position: relative; z-index: 2; cursor: pointer; }
+
+button {
+cursor: pointer;
+pointer-events: auto;
+}
+
+/* ... existing code ... *//* Reset and Base Layout */
+
 {
 box-sizing: border-box;
 margin: 0;
