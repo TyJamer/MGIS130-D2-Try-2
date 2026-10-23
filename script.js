@@ -57,7 +57,7 @@ const MOOD_DATA = {
       { text: "You are fully equipped to turn challenges into major stepping stones.", author: "Unstoppable You" },
       { text: "Trust your expertise and intuition; you have earned your seat at every table.", author: "Inner Authority" },
       { text: "You don't need validation from others when you know the value of your own work.", author: "Self Belief" },
-      { text: "Action dissolves fear. Step forward with clarity and watch path appear.", author: "Forward Motion" },
+      { text: "Action dissolves fear. Step forward with clarity and watch the path appear.", author: "Forward Motion" },
       { text: "Your voice matters, your ideas hold merit, and your vision is worth pursuing.", author: "Bold Voice" },
       { text: "You are capable of handling whatever comes next with grace and resolve.", author: "Resilient Spirit" },
       { text: "Confidence is not having all the answers, but trusting yourself to find them.", author: "Wisdom Within" },
@@ -231,7 +231,7 @@ const MOOD_DATA = {
       { text: "Thank you to the past challenges that shaped your wisdom and resilience.", author: "Refined Wisdom" },
       { text: "Notice the sunlight filtering through windows and the quiet safety of this space.", author: "Quiet Blessings" },
       { text: "The more you notice goodness, the more goodness manifests in your journey.", author: "Magnet of Light" },
-      { text: "Gratitude unlocks the fullness of life and turns meal into a feast.", author: "Open Abundance" },
+      { text: "Gratitude unlocks the fullness of life and turns a meal into a feast.", author: "Open Abundance" },
       { text: "Thank your lungs for breathing automatically and your heart for its quiet rhythm.", author: "Body Thanks" },
       { text: "Inhale thankfulness for life; exhale peace and contentment into the world.", author: "Sacred Breath" },
       { text: "There is wealth in contentment and peace in appreciating simple daily gifts.", author: "True Wealth" },
@@ -354,32 +354,10 @@ const MOOD_DATA = {
 
 class AffirmationEngine {
   constructor() {
-    this.userName = this.loadUserName();
     this.currentMood = "anxious";
-    
-    // Cycle history tracking: stores remaining quote indices per mood
     this.moodPools = {};
-    this.currentQuoteIndex = -1;
     this.favorites = this.loadFavorites();
-
     this.initPools();
-  }
-
-  loadUserName() {
-    try {
-      return localStorage.getItem("serene_user_name") || "";
-    } catch (e) {
-      return "";
-    }
-  }
-
-  saveUserName(name) {
-    this.userName = name;
-    try {
-      localStorage.setItem("serene_user_name", name);
-    } catch (e) {
-      console.warn("Could not save name to localStorage");
-    }
   }
 
   // Initialize or reset remaining quote pools for each mood
@@ -389,36 +367,61 @@ class AffirmationEngine {
     });
   }
 
-  // Reset a specific mood's quote pool once fully cycled through
-  // Determine time of day check-in greeting personalized with name
+  resetMoodPool(mood) {
+    const totalQuotes = MOOD_DATA[mood].quotes.length;
+    // Create an array of indices [0, 1, 2, ... totalQuotes - 1]
+    this.moodPools[mood] = Array.from({ length: totalQuotes }, (_, i) => i);
+  }
+
+  // Non-repeating quote retriever
+  getNextQuote(mood) {
+    this.currentMood = mood;
+
+    // Check if the pool for this mood is exhausted; reset if so
+    if (!this.moodPools[mood] || this.moodPools[mood].length === 0) {
+      this.resetMoodPool(mood);
+    }
+
+    // Pick a random index from remaining available pool
+    const pool = this.moodPools[mood];
+    const randomIndexInPool = Math.floor(Math.random() * pool.length);
+    const selectedQuoteIndex = pool[randomIndexInPool];
+
+    // Remove selected index from available pool to guarantee non-repeating cycle
+    pool.splice(randomIndexInPool, 1);
+
+    const quoteObj = MOOD_DATA[mood].quotes[selectedQuoteIndex];
+    const totalInCycle = MOOD_DATA[mood].quotes.length;
+    const remainingInCycle = pool.length;
+
+    return {
+      quote: quoteObj,
+      totalInCycle,
+      remainingInCycle
+    };
+  }
+
+  // Add custom user-created quote
+  addCustomQuote(mood, text) {
+    if (MOOD_DATA[mood]) {
+      const newQuote = { text, author: "My Personal Affirmation" };
+      MOOD_DATA[mood].quotes.unshift(newQuote);
+      // Reset pool so custom quote is included in active cycle
+      this.resetMoodPool(mood);
+    }
+  }
+
+  // Determine time of day check-in greeting
   getTimeOfDayGreeting() {
     const hour = new Date().getHours();
-    const nameStr = this.userName ? `, ${this.userName}` : "";
-    
     if (hour >= 5 && hour < 12) {
-      return { 
-        badge: "🌅 Morning Check-in", 
-        title: `Good morning${nameStr}`,
-        subtitle: "Start your morning with calm & steady focus."
-      };
+      return { badge: "🌅 Morning Check-in", title: "Good morning", subtitle: "Start your morning with calm & steady focus." };
     } else if (hour >= 12 && hour < 17) {
-      return { 
-        badge: "☀️ Afternoon Reflection", 
-        title: `Good afternoon${nameStr}`,
-        subtitle: "Take a peaceful pause in the middle of your day."
-      };
+      return { badge: "☀️ Afternoon Reflection", title: "Good afternoon", subtitle: "Take a peaceful pause in the middle of your day." };
     } else if (hour >= 17 && hour < 22) {
-      return { 
-        badge: "🌆 Evening Unwind", 
-        title: `Good evening${nameStr}`,
-        subtitle: "Rest your mind and release the weight of the day."
-      };
+      return { badge: "🌆 Evening Unwind", title: "Good evening", subtitle: "Rest your mind and release the weight of the day." };
     } else {
-      return { 
-        badge: "🌙 Nighttime Peace", 
-        title: `Peaceful night${nameStr}`,
-        subtitle: "Soft thoughts and serene comfort before rest."
-      };
+      return { badge: "🌙 Nighttime Peace", title: "Peaceful night", subtitle: "Soft thoughts and serene comfort before rest." };
     }
   }
 
@@ -467,16 +470,6 @@ class AffirmationEngine {
 document.addEventListener("DOMContentLoaded", () => {
   const engine = new AffirmationEngine();
 
-  // DOM Elements - Onboarding
-  const welcomeScreenEl = document.getElementById("welcome-screen");
-  const welcomeForm = document.getElementById("welcome-form");
-  const userNameInput = document.getElementById("user-name-input");
-  const welcomeMoodSelect = document.getElementById("welcome-mood-select");
-  const welcomeTimeBadge = document.getElementById("welcome-time-badge");
-  const appContainerEl = document.getElementById("app-container");
-  const changeUserBtn = document.getElementById("change-user-btn");
-  const userDisplayNameEl = document.getElementById("user-display-name");
-
   // DOM Elements - Main App
   const timeBadgeEl = document.getElementById("time-badge");
   const greetingTitleEl = document.getElementById("greeting-title");
@@ -512,10 +505,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function applyTimeCheckIn() {
     const checkIn = engine.getTimeOfDayGreeting();
     timeBadgeEl.textContent = checkIn.badge;
-    welcomeTimeBadge.textContent = checkIn.badge;
     greetingTitleEl.textContent = checkIn.title;
     if (greetingSubtitleEl) greetingSubtitleEl.textContent = checkIn.subtitle;
-    if (userDisplayNameEl) userDisplayNameEl.textContent = engine.userName || "Friend";
   }
 
   // Update theme colors and peaceful background image based on current mood
@@ -543,203 +534,3 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderAffirmation(moodKey) {
     applyTheme(moodKey);
     const result = engine.getNextQuote(moodKey);
-    currentQuoteObj = result.quote;
-
-    // Fade animation
-    quoteTextEl.style.opacity = 0;
-    setTimeout(() => {
-      quoteTextEl.textContent = `"${currentQuoteObj.text}"`;
-      quoteAuthorEl.textContent = `— ${currentQuoteObj.author}`;
-      moodTagEl.textContent = `${MOOD_DATA[moodKey].icon} ${MOOD_DATA[moodKey].label}`;
-      
-      const usedInCycle = result.totalInCycle - result.remainingInCycle;
-      cycleCounterEl.textContent = `${usedInCycle} of ${result.totalInCycle}`;
-
-      quoteTextEl.style.opacity = 1;
-      updateFavoriteButtonState();
-    }, 150);
-  }
-
-  // Onboarding Start Action
-  function startJourney(name, initialMood) {
-    engine.saveUserName(name);
-    applyTimeCheckIn();
-    
-    // Hide onboarding screen and show main app
-    welcomeScreenEl.classList.add("hidden");
-    appContainerEl.classList.remove("hidden");
-    
-    renderAffirmation(initialMood);
-  }
-
-  // Onboarding Form Listener
-  welcomeForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const name = userNameInput.value.trim();
-    const mood = welcomeMoodSelect.value;
-
-    if (name && mood) {
-      startJourney(name, mood);
-    }
-  });
-
-  // Re-open onboarding / profile change
-  changeUserBtn.addEventListener("click", () => {
-    userNameInput.value = engine.userName;
-    welcomeMoodSelect.value = engine.currentMood;
-    appContainerEl.classList.add("hidden");
-    welcomeScreenEl.classList.remove("hidden");
-  });
-
-      favoritesListEl.appendChild(item);
-    });
-  }
-
-  function generateShareImage() {
-    const ctx = shareCanvas.getContext("2d");
-    const width = shareCanvas.width;
-    const height = shareCanvas.height;
-    const moodConfig = MOOD_DATA[engine.currentMood];
-
-    // Background Dark Gradient
-    const grad = ctx.createLinearGradient(0, 0, width, height);
-    grad.addColorStop(0, "#1a1228");
-    grad.addColorStop(1, "#0a0612");
-    ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, width, height);
-
-    // Decorative Inner Card Frame
-    ctx.fillStyle = "rgba(255, 255, 255, 0.08)";
-    ctx.roundRect(40, 40, width - 80, height - 80, 24);
-    ctx.fill();
-    ctx.strokeStyle = "rgba(255, 255, 255, 0.2)";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    // Decorative Icon & Mood Header
-    ctx.fillStyle = moodConfig.primaryAccent;
-    ctx.font = "bold 20px 'Plus Jakarta Sans', sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(`${moodConfig.icon} ${moodConfig.label.toUpperCase()} AFFIRMATION`, width / 2, 100);
-
-    // Quote Text Wrapping Engine
-    ctx.fillStyle = "#ffffff";
-    ctx.font = "500 26px 'Plus Jakarta Sans', sans-serif";
-    
-    const words = currentQuoteObj.text.split(" ");
-    let line = "";
-    let lines = [];
-    const maxWidth = width - 140;
-
-    for (let n = 0; n < words.length; n++) {
-      let testLine = line + words[n] + " ";
-      let metrics = ctx.measureText(testLine);
-      if (metrics.width > maxWidth && n > 0) {
-        lines.push(line);
-        line = words[n] + " ";
-      } else {
-        line = testLine;
-      }
-    }
-    lines.push(line);
-
-    // Render Center-Aligned Lines
-    let startY = (height / 2) - ((lines.length * 36) / 2) + 10;
-    lines.forEach((l, idx) => {
-      ctx.fillText(`"${l.trim()}"`, width / 2, startY + (idx * 36));
-    });
-
-    // Author & Branding
-    ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
-    ctx.font = "italic 18px 'Plus Jakarta Sans', sans-serif";
-    ctx.fillText(`— ${currentQuoteObj.author}`, width / 2, startY + (lines.length * 36) + 30);
-
-    ctx.fillStyle = moodConfig.primaryAccent;
-    ctx.font = "600 14px 'Plus Jakarta Sans', sans-serif";
-    ctx.fillText("SereneMind Daily Affirmations", width / 2, height - 70);
-
-    // Prepare Download Link
-    downloadCardBtn.href = shareCanvas.toDataURL("image/png");
-  }
-
-  // Event Listeners
-  moodBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      renderAffirmation(btn.dataset.mood);
-    });
-  });
-
-  nextBtn.addEventListener("click", () => {
-    renderAffirmation(engine.currentMood);
-  });
-
-  favoriteBtn.addEventListener("click", () => {
-    if (currentQuoteObj) {
-      engine.toggleFavorite(currentQuoteObj, engine.currentMood);
-      updateFavoriteButtonState();
-      renderFavoritesUI();
-    }
-  });
-
-  shareBtn.addEventListener("click", () => {
-    if (!currentQuoteObj) return;
-    generateShareImage();
-    modalEl.classList.add("active");
-  });
-
-  closeModalBtn.addEventListener("click", () => {
-    modalEl.classList.remove("active");
-  });
-
-  // Tab Navigation
-  tabBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      tabBtns.forEach(b => b.classList.remove("active"));
-      tabContents.forEach(c => c.classList.remove("active"));
-
-      btn.classList.add("active");
-      document.getElementById(btn.dataset.tab).classList.add("active");
-    });
-  });
-
-  // Handle Custom Quote Creation
-  customForm.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const text = customTextIn.value.trim();
-    const mood = customMoodIn.value;
-
-    if (text) {
-      engine.addCustomQuote(mood, text);
-      customTextIn.value = "";
-      renderAffirmation(mood);
-    }
-  });
-
-  // Polyfill Canvas roundRect if needed
-  if (!CanvasRenderingContext2D.prototype.roundRect) {
-    CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
-      this.beginPath();
-      this.moveTo(x + r, y);
-      this.arcTo(x + w, y, x + w, y + h, r);
-      this.arcTo(x + w, y + h, x, y + h, r);
-      this.arcTo(x, y + h, x, y);
-      this.arcTo(x, y, x + w, y, r);
-      this.closePath();
-      return this;
-    };
-  }
-
-  // Initial Load Trigger
-  applyTimeCheckIn();
-  renderAffirmation("anxious");
-  renderFavoritesUI();
-});
-  // Initial Load Trigger - Check if user name exists or prompt onboarding
-  applyTimeCheckIn();
-  applyTheme("anxious"); // Soft default sunset background behind welcome screen
-
-  if (engine.userName) {
-    userNameInput.value = engine.userName;
-  }
-  renderFavoritesUI();
-});
