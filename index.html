@@ -15,11 +15,49 @@
   <div id="bg-image-layer" class="bg-image-layer"></div>
   <div id="bg-overlay" class="bg-overlay"></div>
 
-  <!-- Main Container -->
-  <div class="app-container">
+  <!-- Onboarding / Welcome Screen -->
+  <div id="welcome-screen" class="welcome-screen">
+    <div class="welcome-card">
+      <div class="time-badge" id="welcome-time-badge">✨ Quiet Reflection</div>
+      <h1 class="welcome-title">Welcome to SereneMind</h1>
+      <p class="welcome-subtitle">A quiet space to honor your feelings and receive gentle, daily guidance.</p>
+      
+      <form id="welcome-form" class="welcome-form">
+        <div class="form-group text-left">
+          <label for="user-name-input">What should we call you?</label>
+          <input type="text" id="user-name-input" placeholder="Enter your name..." required />
+        </div>
+
+        <div class="form-group text-left">
+          <label for="welcome-mood-select">How are you feeling right now?</label>
+          <select id="welcome-mood-select" required>
+            <option value="" disabled selected>Select your current mood...</option>
+            <option value="anxious">🌿 Anxious</option>
+            <option value="confident">🔥 Confident</option>
+            <option value="sad">🌧️ Sad</option>
+            <option value="happy">☀️ Happy</option>
+            <option value="self-love">💖 Self-Love</option>
+            <option value="overwhelmed">🌊 Overwhelmed</option>
+            <option value="grateful">✨ Grateful</option>
+            <option value="burnt-out">🕯️ Burnt Out</option>
+            <option value="lonely">🌙 Lonely</option>
+            <option value="hopeful">🌱 Hopeful</option>
+          </select>
+        </div>
+
+        <button type="submit" class="action-btn primary full-width">Begin Today's Journey</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Main Container (Hidden until onboarded) -->
+  <div class="app-container hidden" id="app-container">
     
     <header class="app-header">
-      <div class="time-badge" id="time-badge">✨ Morning Reflection</div>
+      <div class="header-top-row">
+        <div class="time-badge" id="time-badge">✨ Morning Reflection</div>
+        <button id="change-user-btn" class="change-user-btn" title="Change Name or Profile">👤 <span id="user-display-name">User</span></button>
+      </div>
       <h1 class="greeting-title" id="greeting-title">How are you feeling right now?</h1>
       <p class="greeting-subtitle">Select your current mood to receive a tailored affirmation for your journey today.</p>
     </header>
@@ -44,6 +82,26 @@
       <button class="mood-btn" data-mood="self-love">
         <span class="mood-icon">💖</span>
         <span class="mood-label">Self-Love</span>
+      </button>
+      <button class="mood-btn" data-mood="overwhelmed">
+        <span class="mood-icon">🌊</span>
+        <span class="mood-label">Overwhelmed</span>
+      </button>
+      <button class="mood-btn" data-mood="grateful">
+        <span class="mood-icon">✨</span>
+        <span class="mood-label">Grateful</span>
+      </button>
+      <button class="mood-btn" data-mood="burnt-out">
+        <span class="mood-icon">🕯️</span>
+        <span class="mood-label">Burnt Out</span>
+      </button>
+      <button class="mood-btn" data-mood="lonely">
+        <span class="mood-icon">🌙</span>
+        <span class="mood-label">Lonely</span>
+      </button>
+      <button class="mood-btn" data-mood="hopeful">
+        <span class="mood-icon">🌱</span>
+        <span class="mood-label">Hopeful</span>
       </button>
     </section>
 
@@ -100,6 +158,11 @@
                 <option value="sad">Sad</option>
                 <option value="happy">Happy</option>
                 <option value="self-love">Self-Love</option>
+                <option value="overwhelmed">Overwhelmed</option>
+                <option value="grateful">Grateful</option>
+                <option value="burnt-out">Burnt Out</option>
+                <option value="lonely">Lonely</option>
+                <option value="hopeful">Hopeful</option>
               </select>
             </div>
             <button type="submit" class="action-btn secondary">Save & Affirm</button>
