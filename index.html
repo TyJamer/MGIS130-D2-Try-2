@@ -15,49 +15,11 @@
   <div id="bg-image-layer" class="bg-image-layer"></div>
   <div id="bg-overlay" class="bg-overlay"></div>
 
-  <!-- Onboarding / Welcome Screen -->
-  <div id="welcome-screen" class="welcome-screen">
-    <div class="welcome-card">
-      <div class="time-badge" id="welcome-time-badge">✨ Quiet Reflection</div>
-      <h1 class="welcome-title">Welcome to SereneMind</h1>
-      <p class="welcome-subtitle">A quiet space to honor your feelings and receive gentle, daily guidance.</p>
-      
-      <form id="welcome-form" class="welcome-form">
-        <div class="form-group text-left">
-          <label for="user-name-input">What should we call you?</label>
-          <input type="text" id="user-name-input" placeholder="Enter your name..." required />
-        </div>
-
-        <div class="form-group text-left">
-          <label for="welcome-mood-select">How are you feeling right now?</label>
-          <select id="welcome-mood-select" required>
-            <option value="" disabled selected>Select your current mood...</option>
-            <option value="anxious">🌿 Anxious</option>
-            <option value="confident">🔥 Confident</option>
-            <option value="sad">🌧️ Sad</option>
-            <option value="happy">☀️ Happy</option>
-            <option value="self-love">💖 Self-Love</option>
-            <option value="overwhelmed">🌊 Overwhelmed</option>
-            <option value="grateful">✨ Grateful</option>
-            <option value="burnt-out">🕯️ Burnt Out</option>
-            <option value="lonely">🌙 Lonely</option>
-            <option value="hopeful">🌱 Hopeful</option>
-          </select>
-        </div>
-
-        <button type="submit" class="action-btn primary full-width">Begin Today's Journey</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Main Container (Hidden until onboarded) -->
-  <div class="app-container hidden" id="app-container">
+  <!-- Main Container -->
+  <div class="app-container" id="app-container">
     
     <header class="app-header">
-      <div class="header-top-row">
-        <div class="time-badge" id="time-badge">✨ Morning Reflection</div>
-        <button id="change-user-btn" class="change-user-btn" title="Change Name or Profile">👤 <span id="user-display-name">User</span></button>
-      </div>
+      <div class="time-badge" id="time-badge">✨ Morning Reflection</div>
       <h1 class="greeting-title" id="greeting-title">How are you feeling right now?</h1>
       <p class="greeting-subtitle">Select your current mood to receive a tailored affirmation for your journey today.</p>
     </header>
@@ -110,7 +72,7 @@
       
       <div class="card-header">
         <span class="mood-tag" id="current-mood-tag">🌿 Anxious</span>
-        <span class="cycle-counter" id="cycle-counter">1 of 5</span>
+        <span class="cycle-counter" id="cycle-counter">1 of 20</span>
       </div>
 
       <div class="quote-wrapper">
